@@ -25,21 +25,18 @@ int ft_execute(char **av, int i, int tmp_fd, char **env)
 
 int	main(int argc, char **av, char **env)
 {
-	int	i;
-	int pid;
+	int	i = 0;
+	int pid = 0;
 	int fd[2];
-	int tmp_fd;
+	int tmp_fd = dup(STDIN_FILENO);
 	(void)argc;
 
-	pid = 0;
-	i = 0;
-	tmp_fd = dup(STDIN_FILENO);
-	while (av[i] && av[i + 1]) //check if the end is reached
+	while (av[i] && av[i + 1]) //check if the end is reached       // skip le a.out et les operateurs et check qqc apres
 	{
-		av = &av[i + 1]; //the new av start after the ; or "|" *** this line is very importante
+		av = &av[i + 1]; //the new av start after the ; or "|" *** this line is very importante			//prend qqc apres
 		i = 0;
 		//count until we have all informations to execute the next child;
-		while (av[i] && strcmp(av[i], ";") && strcmp(av[i], "|"))
+		while (av[i] && strcmp(av[i], ";") && strcmp(av[i], "|")) // i = nb de commande dans pipe line
 			i++;
 		if (strcmp(av[0], "cd") == 0) //cd
 		{
