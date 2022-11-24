@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string.h>
+#include <stdio.h>
 
 int	ft_putstr_fd2(char *str, char *arg)
 {
@@ -48,8 +49,7 @@ int	main(int argc, char **av, char **env)
 		else if (i != 0 && (av[i] == NULL || strcmp(av[i], ";") == 0)) //exec in stdout
 		{//we enter here when i != 0, it mean we have at least on cmd, and when we are on the last cmd befor a NULL or a ";".
 			pid = fork();
-			if ( pid == 0)
-			{
+			if ( pid == 0){
 				if (ft_execute(av, i, tmp_fd, env))
 					return (1);
 			}
@@ -61,23 +61,23 @@ int	main(int argc, char **av, char **env)
 				tmp_fd = dup(STDIN_FILENO);
 			}
 		}
-		else if(i != 0 && strcmp(av[i], "|") == 0) //pipe
+		else if(i != 0 && strcmp(av[i], "|") == 0) // si pipe line && suivi d'un pipe
 		{
-			pipe(fd);
+			pipe(fd);			// creation pipe
 			pid = fork();
-			if ( pid == 0)
+			if ( pid == 0)		//enfant
 			{
-				dup2(fd[1], STDOUT_FILENO);
-				close(fd[0]);
-				close(fd[1]);
-				if (ft_execute(av, i, tmp_fd, env))
+				dup2(fd[1], STDOUT_FILENO);		//STDOUT devient fd1 donc sortie sur fd1
+				close(fd[1]);					//close fd1_old
+				close(fd[0]);					//close fd0 car entre sur tmp
+				if (ft_execute(av, i, tmp_fd, env))		
 					return (1);
 			}
 			else
 			{
-				close(fd[1]);
-				close(tmp_fd);
-				tmp_fd = fd[0];
+				close(fd[1]);		//close fd1
+				close(tmp_fd);		//close tmp
+				tmp_fd = fd[0];		//sortie commande sur fd0 donc tmp = fd0
 			}
 		}
 	}
