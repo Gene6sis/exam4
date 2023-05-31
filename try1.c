@@ -46,7 +46,7 @@ int main(int argc, char **av, char **envp) {
 			}
 			else {
 				close(fd_tmp);
-				while(waitpid(-1, NULL, 2) == -1)
+				while(waitpid(-1, NULL, 2) != -1)
 					;
 				fd_tmp = dup(STDIN_FILENO);
 			}
