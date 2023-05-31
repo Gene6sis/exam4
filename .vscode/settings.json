@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"*.py": "python",
-		"unistd.h": "c",
-		"string.h": "c",
-		"try1.C": "cpp"
-	}
-}

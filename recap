@@ -1,5 +1,0 @@
-variable : i / pid / pipe[2] / tmp pipe
-
-!!! apprendre les includes !!!
-
-bien ecrire les erreurs sur 2
